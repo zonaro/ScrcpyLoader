@@ -211,6 +211,11 @@ Public Class DeviceConsole
     Public Shared Function GetWindowLong(ByVal hWnd As IntPtr, ByVal nIndex As Integer) As Integer
     End Function
 
+    <DllImport("User32.dll")>
+    Public Shared Function SetForegroundWindow(point As IntPtr) As Integer
+
+    End Function
+
     Public Shared GWL_STYLE As Integer = -16
     Public Shared WS_CHILD As Integer = &H40000000
     Public Shared WS_BORDER As Integer = &H800000
@@ -319,7 +324,7 @@ Public Class DeviceConsole
 
     End Sub
 
-    Sub IniciarApp(package As String)
+    Sub IniciarApp(package As String, Optional LineArgs As String = "")
         Dim d As New ProcessStartInfo(ScrcpyDirectory.FullName & "\adb.exe", "-s " & device_id.Text & $" shell monkey -p {package} -c android.intent.category.LAUNCHER 1")
         d.UseShellExecute = False
         d.RedirectStandardOutput = True
@@ -327,7 +332,7 @@ Public Class DeviceConsole
         d.RedirectStandardInput = True
         d.CreateNoWindow = True
         Process.Start(d)
-        start_bt.PerformClick()
+        StartProccess(LineArgs)
     End Sub
 
     Sub GetApps()
@@ -349,6 +354,10 @@ Public Class DeviceConsole
                                                               Dim cbd = New CallBackDel(Sub()
                                                                                             Dim appdev = appdomain.First().ToTitle()
                                                                                             Dim appname = appdomain.Last().ToTitle()
+
+                                                                                            If app_package = "com.sentio.desktop" Then
+                                                                                                WithSentioDesktopToolStripMenuItem.Enabled = True
+                                                                                            End If
 
                                                                                             Dim DevMenu As ToolStripMenuItem = Nothing
                                                                                             For Each m As ToolStripMenuItem In AppMenu.DropDownItems
@@ -377,6 +386,10 @@ Public Class DeviceConsole
         Thread.Sleep(1000)
         processoPacote.BeginOutputReadLine()
 
+    End Sub
+
+    Private Sub WithSentioDesktopToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles WithSentioDesktopToolStripMenuItem.Click
+        IniciarApp("com.sentio.desktop", $"-s {device_id.Text} --fullscreen")
     End Sub
 
 End Class

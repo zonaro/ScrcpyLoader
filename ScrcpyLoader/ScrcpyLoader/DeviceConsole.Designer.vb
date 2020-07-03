@@ -25,6 +25,7 @@ Partial Class DeviceConsole
         Me.MenuStrip2 = New System.Windows.Forms.MenuStrip()
         Me.device_id = New System.Windows.Forms.ToolStripMenuItem()
         Me.start_bt = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AppMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
@@ -52,7 +53,7 @@ Partial Class DeviceConsole
         Me.ConsoleControl1 = New ConsoleControl.ConsoleControl()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.window_cap = New System.Windows.Forms.Panel()
-        Me.AppMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.WithSentioDesktopToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -79,10 +80,16 @@ Partial Class DeviceConsole
         '
         'start_bt
         '
-        Me.start_bt.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AppMenu})
+        Me.start_bt.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AppMenu, Me.WithSentioDesktopToolStripMenuItem})
         Me.start_bt.Name = "start_bt"
         Me.start_bt.Size = New System.Drawing.Size(50, 20)
         Me.start_bt.Text = "START"
+        '
+        'AppMenu
+        '
+        Me.AppMenu.Name = "AppMenu"
+        Me.AppMenu.Size = New System.Drawing.Size(181, 22)
+        Me.AppMenu.Text = "With App"
         '
         'ToolStripMenuItem2
         '
@@ -278,11 +285,12 @@ Partial Class DeviceConsole
         Me.window_cap.Size = New System.Drawing.Size(634, 544)
         Me.window_cap.TabIndex = 0
         '
-        'AppMenu
+        'WithSentioDesktopToolStripMenuItem
         '
-        Me.AppMenu.Name = "AppMenu"
-        Me.AppMenu.Size = New System.Drawing.Size(180, 22)
-        Me.AppMenu.Text = "With App"
+        Me.WithSentioDesktopToolStripMenuItem.Enabled = False
+        Me.WithSentioDesktopToolStripMenuItem.Name = "WithSentioDesktopToolStripMenuItem"
+        Me.WithSentioDesktopToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.WithSentioDesktopToolStripMenuItem.Text = "With Sentio Desktop"
         '
         'DeviceConsole
         '
@@ -333,4 +341,5 @@ Partial Class DeviceConsole
     Friend WithEvents capture_menu As ToolStripMenuItem
     Friend WithEvents window_cap As Panel
     Friend WithEvents AppMenu As ToolStripMenuItem
+    Friend WithEvents WithSentioDesktopToolStripMenuItem As ToolStripMenuItem
 End Class
