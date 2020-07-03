@@ -1,2 +1,4 @@
 # ScrcpyLoader
-Painless inteface and AutoUpdater for @Genymobile/Scrcpy
+### Painless inteface and AutoUpdater for https://github.com/Genymobile/scrcpy
+
+
