@@ -4,7 +4,7 @@
   <description asmv2:iconFile="icone_scrcpy.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="ScrcpyLoader" version="1.0.9.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="ScrcpyLoader" version="1.0.10.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="ScrcpyLoader.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -80,13 +80,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="InnerLibs.dll" size="1019392">
-      <assemblyIdentity name="InnerLibs" version="1.0.9.41922" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="InnerLibs" version="1.0.9.9900" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>NKVw9wkD/KRPwiCiEGb2i0Y6oxiO8J7bvqh/+rfElVg=</dsig:DigestValue>
+        <dsig:DigestValue>7Zl00QqBiRXjTx8xDEmCme4+fL36l04df2dwZ968iko=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -175,14 +175,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ScrcpyLoader.exe" size="716224">
-      <assemblyIdentity name="ScrcpyLoader" version="1.0.9.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ScrcpyLoader.exe" size="719808">
+      <assemblyIdentity name="ScrcpyLoader" version="1.0.10.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>LBbPb+KMozzA+YK2Yai5s5bvgHjSthWT8orF1QPNfwM=</dsig:DigestValue>
+        <dsig:DigestValue>/PJvQmblt9bLQBq4BwzyLqSM5PCzQZzpX5a7g6hM4NI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

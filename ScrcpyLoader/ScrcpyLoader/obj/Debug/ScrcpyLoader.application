@@ -14,14 +14,14 @@
     <framework targetVersion="4.6.1" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="ScrcpyLoader.exe.manifest" size="83116">
+    <dependentAssembly dependencyType="install" codebase="ScrcpyLoader.exe.manifest" size="83117">
       <assemblyIdentity name="ScrcpyLoader.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>aTju0ocpXzJSk9hz1qdUU7thi0enyUm5FLNQ3fByQ+U=</dsig:DigestValue>
+        <dsig:DigestValue>O31RvEGMIJKOQ0Y5NAOYjamvL/MCD+uDVVEDYt9Exts=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

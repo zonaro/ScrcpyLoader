@@ -7,7 +7,7 @@ Imports SharpAdbClient
 
 Public Class DeviceConsole
 
-    Property Configuration As New ScrcpyOptions
+    Property Configuration As New ScrcpyConfig
     Public Property Device As DeviceData
 
     Sub LogText(Text As String, Optional Color As Color? = Nothing)
@@ -24,6 +24,7 @@ Public Class DeviceConsole
             StartProccess()
         Else
             Me.ConsoleControl1.ProcessInterface.StopProcess()
+            ChangeToDefaultKeyboard()
             EnableStart()
         End If
     End Sub
@@ -31,10 +32,12 @@ Public Class DeviceConsole
     Sub StartProccess(Optional lineargs As String = "")
         Try
 
-            If processoPacote IsNot Nothing AndAlso processoPacote.HasExited = False Then
-                processoPacote.Kill()
-                processoPacote.Dispose()
+            If ADBProc IsNot Nothing AndAlso ADBProc.HasExited = False Then
+                ADBProc.Kill()
+                ADBProc.Dispose()
             End If
+
+            ChangeToNullKeyboard()
 
             While Me.ConsoleControl1.IsProcessRunning
                 Me.ConsoleControl1.StopProcess()
@@ -78,6 +81,7 @@ Public Class DeviceConsole
             ToolStripMenuItem2.Enabled = True
             start_bt.Text = "START"
             SHowHideTab1(True)
+            ChangeToDefaultKeyboard()
         Catch ex As Exception
         End Try
     End Sub
@@ -96,12 +100,13 @@ Public Class DeviceConsole
             Dim folder = (CurDir() & "\configs\").ToDirectoryInfo().FullName & "\"
             Dim file = folder & device_id.Text & ".scrcpylconfig"
             If IO.File.Exists(file) Then
-                Me.Configuration = JsonConvert.DeserializeObject(Of ScrcpyOptions)(IO.File.ReadAllText(file, Encoding.Default))
+                Me.Configuration = JsonConvert.DeserializeObject(Of ScrcpyConfig)(IO.File.ReadAllText(file, Encoding.Default))
                 Me.Configs.SelectedObject = Me.Configuration
                 Me.autostart_menu.Checked = Me.Configuration.AutoStart
                 Me.capture_menu.Checked = Me.Configuration.HostWindow
+                Me.NullKeyboard_menu.Checked = Me.Configuration.EnableNullKeyboard AndAlso Me.NullKeyboard_menu.Enabled
             Else
-                Me.Configuration = New ScrcpyOptions
+                Me.Configuration = New ScrcpyConfig
                 SaveConfig()
                 LoadConfig()
             End If
@@ -149,8 +154,18 @@ Public Class DeviceConsole
             End If
         End If
 
+        NullKeyboard_menu.Enabled = False
         GetApps()
 
+        While ADBProc.HasExited = False
+            Thread.Sleep(900)
+        End While
+
+        GetDefaultKeyboard()
+        While ADBProc.HasExited = False
+            Thread.Sleep(900)
+        End While
+        ChangeToDefaultKeyboard()
     End Sub
 
     Private Sub HELPToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HELPToolStripMenuItem.Click
@@ -162,7 +177,7 @@ Public Class DeviceConsole
     End Sub
 
     Private Sub ToolStripMenuItem4_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem4.Click
-        Me.Configuration = New ScrcpyOptions
+        Me.Configuration = New ScrcpyConfig
         SaveConfig()
         LoadConfig()
     End Sub
@@ -176,7 +191,7 @@ Public Class DeviceConsole
         End If
 
         If Me.Configuration Is Nothing Then
-            Me.Configuration = New ScrcpyOptions
+            Me.Configuration = New ScrcpyConfig
         End If
 
         Dim s = Screen.FromControl(Me).WorkingArea
@@ -336,6 +351,10 @@ Public Class DeviceConsole
     End Sub
 
     Sub IniciarApp(package As String, Optional LineArgs As String = "")
+        If ADBProc IsNot Nothing AndAlso ADBProc.HasExited = False Then
+            ADBProc.Kill()
+            ADBProc.Dispose()
+        End If
         Dim d As New ProcessStartInfo(ScrcpyDirectory.FullName & "\adb.exe", "-s " & device_id.Text & $" shell monkey -p {package} -c android.intent.category.LAUNCHER 1")
         d.UseShellExecute = False
         d.RedirectStandardOutput = True
@@ -346,63 +365,133 @@ Public Class DeviceConsole
         StartProccess(LineArgs)
     End Sub
 
-    Property processoPacote As Process
+    Property ADBProc As Process
+
+    Sub ChangeToNullKeyboard()
+        If NullKeyboard_menu.Enabled AndAlso Configuration.EnableNullKeyboard Then
+            GetDefaultKeyboard()
+
+            While ADBProc.HasExited = False
+                Thread.Sleep(900)
+            End While
+
+
+            ADBProc = New Process()
+            ADBProc.StartInfo = New ProcessStartInfo(ADBPath, "-s " & device_id.Text & "  shell ime set com.wparam.nullkeyboard/.NullKeyboard")
+            ADBProc.StartInfo.UseShellExecute = False
+            ADBProc.StartInfo.RedirectStandardOutput = True
+            ADBProc.StartInfo.RedirectStandardError = True
+            ADBProc.StartInfo.RedirectStandardInput = True
+            ADBProc.StartInfo.CreateNoWindow = True
+            ADBProc.Start()
+            Thread.Sleep(900)
+        End If
+    End Sub
+
+    Sub ChangeToDefaultKeyboard()
+        If Configuration.DefaultKeyboard.IsNotBlank Then
+            If ADBProc IsNot Nothing AndAlso ADBProc.HasExited = False Then
+                ADBProc.Kill()
+                ADBProc.Dispose()
+            End If
+            ADBProc = New Process()
+            ADBProc.StartInfo = New ProcessStartInfo(ADBPath, "-s " & device_id.Text & "  shell ime set  " & Configuration.DefaultKeyboard)
+
+            ADBProc.StartInfo.UseShellExecute = False
+            ADBProc.StartInfo.RedirectStandardOutput = True
+            ADBProc.StartInfo.RedirectStandardError = True
+            ADBProc.StartInfo.RedirectStandardInput = True
+            ADBProc.StartInfo.CreateNoWindow = True
+
+            ADBProc.Start()
+            Thread.Sleep(900)
+        End If
+
+    End Sub
+
+    Sub GetDefaultKeyboard()
+        If ADBProc IsNot Nothing AndAlso ADBProc.HasExited = False Then
+            ADBProc.Kill()
+            ADBProc.Dispose()
+        End If
+        ADBProc = New Process()
+        ADBProc.StartInfo = New ProcessStartInfo(ADBPath, "-s " & device_id.Text & "  shell settings get secure default_input_method")
+        ADBProc.StartInfo.UseShellExecute = False
+        ADBProc.StartInfo.RedirectStandardOutput = True
+        ADBProc.StartInfo.RedirectStandardError = True
+        ADBProc.StartInfo.RedirectStandardInput = True
+        ADBProc.StartInfo.CreateNoWindow = True
+        AddHandler ADBProc.OutputDataReceived, Sub(sender, args)
+                                                   If args.Data.IsNotBlank Then
+                                                       Me.Configuration.DefaultKeyboard = args.Data
+                                                   End If
+
+                                               End Sub
+        ADBProc.Start()
+        Thread.Sleep(900)
+        ADBProc.BeginOutputReadLine()
+
+    End Sub
 
     Sub GetApps()
-        If processoPacote IsNot Nothing AndAlso processoPacote.HasExited = False Then
-            processoPacote.Kill()
-            processoPacote.Dispose()
+        If ADBProc IsNot Nothing AndAlso ADBProc.HasExited = False Then
+            ADBProc.Kill()
+            ADBProc.Dispose()
         End If
-        processoPacote = New Process()
-        processoPacote.StartInfo = New ProcessStartInfo(ADBPath, "-s " & device_id.Text & "  shell pm list packages -3 -f")
-        processoPacote.StartInfo.UseShellExecute = False
-        processoPacote.StartInfo.RedirectStandardOutput = True
-        processoPacote.StartInfo.RedirectStandardError = True
-        processoPacote.StartInfo.RedirectStandardInput = True
-        processoPacote.StartInfo.CreateNoWindow = True
+        ADBProc = New Process()
+        ADBProc.StartInfo = New ProcessStartInfo(ADBPath, "-s " & device_id.Text & "  shell pm list packages -3 -f")
+        ADBProc.StartInfo.UseShellExecute = False
+        ADBProc.StartInfo.RedirectStandardOutput = True
+        ADBProc.StartInfo.RedirectStandardError = True
+        ADBProc.StartInfo.RedirectStandardInput = True
+        ADBProc.StartInfo.CreateNoWindow = True
 
-        AddHandler processoPacote.OutputDataReceived, Sub(sender, args)
-                                                          If args.Data.IsNotBlank Then
+        AddHandler ADBProc.OutputDataReceived, Sub(sender, args)
+                                                   If args.Data.IsNotBlank Then
 
-                                                              Dim infos = args.Data.Split("base.apk=")
-                                                              Dim app_package = infos.Last()
-                                                              Dim app_path = infos.First() & "base.apk"
-                                                              Dim appdomain = app_package.Split(".").Where(Function(x) x <> "com")
-                                                              Dim cbd = New CallBackDel(Sub()
-                                                                                            Dim appdev = appdomain.First().ToTitle()
-                                                                                            Dim appname = appdomain.Last().ToTitle()
+                                                       Dim infos = args.Data.Split("base.apk=")
+                                                       Dim app_package = infos.Last()
+                                                       Dim app_path = infos.First() & "base.apk"
+                                                       Dim appdomain = app_package.Split(".").Where(Function(x) x <> "com")
+                                                       Dim cbd = New CallBackDel(Sub()
+                                                                                     Dim appdev = appdomain.First().ToTitle()
+                                                                                     Dim appname = appdomain.Last().ToTitle()
 
-                                                                                            If app_package = "com.sentio.desktop" Then
-                                                                                                WithSentioDesktopToolStripMenuItem.Enabled = True
-                                                                                            End If
+                                                                                     If app_package = "com.sentio.desktop" Then
+                                                                                         WithSentioDesktopToolStripMenuItem.Enabled = True
+                                                                                     End If
+                                                                                     If app_package = "com.wparam.nullkeyboard" Then
+                                                                                         NullKeyboard_menu.Enabled = True
+                                                                                         NullKeyboard_menu.Checked = Me.Configuration.EnableNullKeyboard
 
-                                                                                            Dim DevMenu As ToolStripMenuItem = Nothing
-                                                                                            For Each m As ToolStripMenuItem In AppMenu.DropDownItems
-                                                                                                If m.Text = appdev Then
-                                                                                                    DevMenu = m
-                                                                                                    Exit For
-                                                                                                End If
-                                                                                            Next
+                                                                                     End If
 
-                                                                                            If DevMenu Is Nothing Then
-                                                                                                DevMenu = New ToolStripMenuItem(appdev)
-                                                                                                AppMenu.DropDownItems.Add(DevMenu)
-                                                                                            End If
+                                                                                     Dim DevMenu As ToolStripMenuItem = Nothing
+                                                                                     For Each m As ToolStripMenuItem In AppMenu.DropDownItems
+                                                                                         If m.Text = appdev Then
+                                                                                             DevMenu = m
+                                                                                             Exit For
+                                                                                         End If
+                                                                                     Next
 
-                                                                                            Dim newAppMenu As New ToolStripMenuItem(appname)
-                                                                                            DevMenu.DropDownItems.Add(newAppMenu)
-                                                                                            AddHandler newAppMenu.Click, Sub() IniciarApp(app_package)
+                                                                                     If DevMenu Is Nothing Then
+                                                                                         DevMenu = New ToolStripMenuItem(appdev)
+                                                                                         AppMenu.DropDownItems.Add(DevMenu)
+                                                                                     End If
 
-                                                                                        End Sub)
-                                                              Me.Invoke(cbd)
-                                                          End If
+                                                                                     Dim newAppMenu As New ToolStripMenuItem(appname)
+                                                                                     DevMenu.DropDownItems.Add(newAppMenu)
+                                                                                     AddHandler newAppMenu.Click, Sub() IniciarApp(app_package)
 
-                                                      End Sub
+                                                                                 End Sub)
+                                                       Me.Invoke(cbd)
+                                                   End If
 
-        processoPacote.Start()
+                                               End Sub
+
+        ADBProc.Start()
         Thread.Sleep(1000)
-        processoPacote.BeginOutputReadLine()
-
+        ADBProc.BeginOutputReadLine()
 
     End Sub
 
@@ -410,4 +499,21 @@ Public Class DeviceConsole
         IniciarApp("com.sentio.desktop", $"-s {device_id.Text} --fullscreen")
     End Sub
 
+    Private Sub ToolStripMenuItem1_Click_1(sender As Object, e As EventArgs) Handles NullKeyboard_menu.Click
+        Configuration.EnableNullKeyboard = NullKeyboard_menu.Checked
+        SaveConfig()
+        LoadConfig()
+    End Sub
+
+    Private Sub device_id_Click(sender As Object, e As EventArgs) Handles device_id.Click
+        Clipboard.SetText(device_id.Text)
+        Alert("Device serial copied to clipboard.")
+    End Sub
+
+    Private Sub ToolStripMenuItem1_Click_2(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
+        Configuration.DefaultKeyboard = "com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME"
+        ChangeToDefaultKeyboard()
+        SaveConfig()
+        LoadConfig()
+    End Sub
 End Class

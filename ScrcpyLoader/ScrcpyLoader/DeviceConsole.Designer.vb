@@ -54,6 +54,9 @@ Partial Class DeviceConsole
         Me.ConsoleControl1 = New ConsoleControl.ConsoleControl()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.window_cap = New System.Windows.Forms.Panel()
+        Me.NullKeyboard_menu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -73,7 +76,6 @@ Partial Class DeviceConsole
         'device_id
         '
         Me.device_id.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
-        Me.device_id.Enabled = False
         Me.device_id.Name = "device_id"
         Me.device_id.Size = New System.Drawing.Size(63, 20)
         Me.device_id.Text = "deviceid"
@@ -100,7 +102,7 @@ Partial Class DeviceConsole
         '
         'ToolStripMenuItem2
         '
-        Me.ToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem4, Me.ToolStripSeparator2, Me.ToolStripMenuItem3, Me.PictureInPictureToolStripMenuItem, Me.ToolStripSeparator1, Me.capture_menu, Me.autostart_menu, Me.ToolStripSeparator3, Me.HELPToolStripMenuItem, Me.ToolStripMenuItem14, Me.ToolStripMenuItem15})
+        Me.ToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem4, Me.ToolStripSeparator2, Me.ToolStripMenuItem3, Me.PictureInPictureToolStripMenuItem, Me.ToolStripSeparator1, Me.capture_menu, Me.autostart_menu, Me.ToolStripSeparator3, Me.HELPToolStripMenuItem, Me.ToolStripMenuItem14, Me.ToolStripMenuItem15, Me.ToolStripSeparator4, Me.NullKeyboard_menu, Me.ToolStripMenuItem1})
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
         Me.ToolStripMenuItem2.Size = New System.Drawing.Size(68, 20)
         Me.ToolStripMenuItem2.Text = "OPTIONS"
@@ -292,6 +294,25 @@ Partial Class DeviceConsole
         Me.window_cap.Size = New System.Drawing.Size(634, 544)
         Me.window_cap.TabIndex = 0
         '
+        'NullKeyboard_menu
+        '
+        Me.NullKeyboard_menu.CheckOnClick = True
+        Me.NullKeyboard_menu.Enabled = False
+        Me.NullKeyboard_menu.Name = "NullKeyboard_menu"
+        Me.NullKeyboard_menu.Size = New System.Drawing.Size(295, 22)
+        Me.NullKeyboard_menu.Text = "Auto Enable NULL Keyboard if Installed"
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(292, 6)
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(295, 22)
+        Me.ToolStripMenuItem1.Text = "Force Google Board as Default IME"
+        '
         'DeviceConsole
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -342,4 +363,7 @@ Partial Class DeviceConsole
     Friend WithEvents window_cap As Panel
     Friend WithEvents AppMenu As ToolStripMenuItem
     Friend WithEvents WithSentioDesktopToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents NullKeyboard_menu As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
+    Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
 End Class

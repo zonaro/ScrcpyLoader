@@ -200,7 +200,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ScrcpyOptions.vb" />
+    <Compile Include="ScrcpyConfig.vb" />
     <Compile Include="UpdateLoader.Designer.vb">
       <DependentUpon>UpdateLoader.vb</DependentUpon>
     </Compile>

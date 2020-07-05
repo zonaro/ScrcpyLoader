@@ -1,7 +1,13 @@
 ﻿Imports System.ComponentModel
 Imports InnerLibs
 
-Public Class ScrcpyOptions
+Public Class ScrcpyConfig
+
+    <Browsable(False)>
+    Property DefaultKeyboard As String
+
+    <Description("If true, enable NULL Keybaord as default Input Method (if installed) This is not a Scrcpy option. This behavior is defined by Scrcpy Loader"), Category("Behavior"), Browsable(False)>
+    Property EnableNullKeyboard As Boolean
 
 
     <Description("Capture the output window of Scrcpy and host inside a tab. This is not a Scrcpy option. This behavior is defined by Scrcpy Loader"), Category("Behavior"), Browsable(False)>

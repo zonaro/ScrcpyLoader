@@ -30,6 +30,10 @@ Public Class UpdateScrcpy
         End If
 
     End Sub
+
+
+
+
     Sub goupdate()
         Try
             If GenyGithubInfo IsNot Nothing Then
