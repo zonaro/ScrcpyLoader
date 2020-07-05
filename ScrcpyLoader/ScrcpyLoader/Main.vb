@@ -16,7 +16,7 @@ Module GlobalVar
             Dim response = client.Execute(New RestRequest(URL, Method.GET))
             If response.IsSuccessful Then
                 GenyGithubInfo = JsonConvert.DeserializeObject(Of GithubRelease)(response.Content)
-                If New Version(GenyGithubInfo.tag_name.Trim("v")) <= New Version(ScrcpyVersion) Then
+                If ScrcpyVersion <> "NOT INSTALLED" AndAlso New Version(GenyGithubInfo.tag_name.Trim("v")) <= New Version(ScrcpyVersion) Then
                     NotifyIcon1.ShowBalloonTip(900, "Update", "You are up to date", ToolTipIcon.Info)
                     Return False
                 End If
@@ -212,11 +212,16 @@ Public Class Main
         CheckUpdate()
 
         If ScrcpyExists = False Then
+            NotifyIcon1.Visible = True
             NotifyIcon1.ShowBalloonTip(900, "Scrcpy not found", "Please, re-install Scrcpy from update panel", ToolTipIcon.Error)
+            UpdateScrcpy.ShowDialog()
         End If
 
         If ADBExists = False Then
+            NotifyIcon1.Visible = True
             NotifyIcon1.ShowBalloonTip(900, "ADB not found", "Please, re-install Scrcpy from update panel", ToolTipIcon.Error)
+            UpdateScrcpy.ShowDialog()
+
         End If
 
         If (ScrcpyExists AndAlso ADBExists) Then

@@ -30,6 +30,12 @@ Public Class DeviceConsole
 
     Sub StartProccess(Optional lineargs As String = "")
         Try
+
+            If processoPacote IsNot Nothing AndAlso processoPacote.HasExited = False Then
+                processoPacote.Kill()
+                processoPacote.Dispose()
+            End If
+
             While Me.ConsoleControl1.IsProcessRunning
                 Me.ConsoleControl1.StopProcess()
             End While
@@ -340,8 +346,14 @@ Public Class DeviceConsole
         StartProccess(LineArgs)
     End Sub
 
+    Property processoPacote As Process
+
     Sub GetApps()
-        Dim processoPacote As New Process()
+        If processoPacote IsNot Nothing AndAlso processoPacote.HasExited = False Then
+            processoPacote.Kill()
+            processoPacote.Dispose()
+        End If
+        processoPacote = New Process()
         processoPacote.StartInfo = New ProcessStartInfo(ADBPath, "-s " & device_id.Text & "  shell pm list packages -3 -f")
         processoPacote.StartInfo.UseShellExecute = False
         processoPacote.StartInfo.RedirectStandardOutput = True
@@ -390,6 +402,7 @@ Public Class DeviceConsole
         processoPacote.Start()
         Thread.Sleep(1000)
         processoPacote.BeginOutputReadLine()
+
 
     End Sub
 

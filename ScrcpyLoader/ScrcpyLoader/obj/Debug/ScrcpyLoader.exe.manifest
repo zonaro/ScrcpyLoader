@@ -80,13 +80,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="InnerLibs.dll" size="1019392">
-      <assemblyIdentity name="InnerLibs" version="1.0.9.39230" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="InnerLibs" version="1.0.9.41922" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>V5cehBRYMpOC4SsQ3BfOtiOZg3nHutZNU2Pa72Yi0ZA=</dsig:DigestValue>
+        <dsig:DigestValue>NKVw9wkD/KRPwiCiEGb2i0Y6oxiO8J7bvqh/+rfElVg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -175,14 +175,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ScrcpyLoader.exe" size="715712">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ScrcpyLoader.exe" size="716224">
       <assemblyIdentity name="ScrcpyLoader" version="1.0.9.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>PmOpeacXcAvGc7kHTzKnhYtp641m8LKRbbFKpslGH+Y=</dsig:DigestValue>
+        <dsig:DigestValue>LBbPb+KMozzA+YK2Yai5s5bvgHjSthWT8orF1QPNfwM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
