@@ -201,10 +201,16 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ScrcpyOptions.vb" />
-    <Compile Include="UpdatePy.Designer.vb">
-      <DependentUpon>UpdatePy.vb</DependentUpon>
+    <Compile Include="UpdateLoader.Designer.vb">
+      <DependentUpon>UpdateLoader.vb</DependentUpon>
     </Compile>
-    <Compile Include="UpdatePy.vb">
+    <Compile Include="UpdateLoader.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateScrcpy.Designer.vb">
+      <DependentUpon>UpdateScrcpy.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateScrcpy.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -224,8 +230,11 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UpdatePy.resx">
-      <DependentUpon>UpdatePy.vb</DependentUpon>
+    <EmbeddedResource Include="UpdateLoader.resx">
+      <DependentUpon>UpdateLoader.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateScrcpy.resx">
+      <DependentUpon>UpdateScrcpy.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

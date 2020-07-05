@@ -109,7 +109,9 @@ Public Class ScrcpyOptions
         End If
 
         If AlwaysOnTop Then
-            args.Add("--always-on-top")
+            If Not HostWindow Then
+                args.Add("--always-on-top")
+            End If
         End If
 
         If Fullscreen Then

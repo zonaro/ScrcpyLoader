@@ -37,7 +37,12 @@ Public Class DeviceConsole
             If Me.Configuration.HostWindow Then
                 Me.Configuration.Width = window_cap.Width
                 Me.Configuration.Height = window_cap.Height
+                With DirectCast(Me.FindForm(), Main)
+                    .StayOnTopToolStripMenuItem.Checked = Me.Configuration.AlwaysOnTop
+                    .TopMost = Me.Configuration.AlwaysOnTop
+                End With
             End If
+
             If TabControl1.SelectedTab Is TabPage1 Then
                 TabControl1.SelectedTab = TabPage2
             End If
@@ -156,35 +161,39 @@ Public Class DeviceConsole
         LoadConfig()
     End Sub
 
-    Sub CalculatePipSize(PercentSize As String)
+    Private Sub ToolStripMenuItem5_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem9.Click, ToolStripMenuItem8.Click, ToolStripMenuItem7.Click, ToolStripMenuItem5.Click, ToolStripMenuItem11.Click, ToolStripMenuItem10.Click, OtherPiPSizeToolStripMenuItem.Click
+        If Not sender Is OtherPiPSizeToolStripMenuItem Then
+            If ToolStripTextBox1.Text.IsBlank Then
+                ToolStripTextBox1.Text = "20%"
+            End If
+            ToolStripTextBox1.Text = sender.Text.trim("%") & "%"
+        End If
+
         If Me.Configuration Is Nothing Then
             Me.Configuration = New ScrcpyOptions
         End If
 
         Dim s = Screen.FromControl(Me).WorkingArea
+        Dim PercentSize = ToolStripTextBox1.Text.IfBlank("20").AppendIf("%", Function(x As String) x.EndsWith("%") = False)
 
         Me.Configuration.Width = PercentSize.CalculateValueFromPercent(s.Width)
         Me.Configuration.Height = PercentSize.CalculateValueFromPercent(s.Height)
 
         Me.Configuration.WindowY = s.Bottom - Me.Configuration.Height - 30
         Me.Configuration.WindowX = s.Right - Me.Configuration.Width - 30
-    End Sub
 
-    Private Sub ToolStripMenuItem5_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem9.Click, ToolStripMenuItem8.Click, ToolStripMenuItem7.Click, ToolStripMenuItem5.Click, ToolStripMenuItem11.Click, ToolStripMenuItem10.Click, OtherPiPSizeToolStripMenuItem.Click
-        If Not sender Is OtherPiPSizeToolStripMenuItem Then
-            If ToolStripTextBox1.Text.IsBlank Then
-                ToolStripTextBox1.Text = "20%"
-            End If
-            ToolStripTextBox1.Text = sender.Text & "%"
-        End If
-        CalculatePipSize(ToolStripTextBox1.Text.IfBlank("20").AppendIf("%", Function(x As String) x.EndsWith("%")))
-        Configuration.AlwaysOnTop = True
+        Me.Configuration.Fullscreen = False
+        Me.Configuration.HostWindow = False
+        Me.Configuration.AlwaysOnTop = True
         capture_menu.Checked = False
+
         SaveConfig()
         LoadConfig()
     End Sub
 
     Private Sub ToolStripMenuItem3_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem3.Click
+        Configuration.HostWindow = False
+        capture_menu.Checked = False
         MouseSelector.ShowDialog(Me)
         Configuration.Width = MouseSelector.WindowSize.Width
         Configuration.Height = MouseSelector.WindowSize.Height
@@ -318,10 +327,6 @@ Public Class DeviceConsole
         If Me.Configuration.HostWindow AndAlso Me.ConsoleControl1.IsProcessRunning Then
             StartProccess()
         End If
-    End Sub
-
-    Private Sub SentioDesktopToolStripMenuItem_Click(sender As Object, e As EventArgs)
-
     End Sub
 
     Sub IniciarApp(package As String, Optional LineArgs As String = "")

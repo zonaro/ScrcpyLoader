@@ -9,15 +9,44 @@ Imports SharpAdbClient
 
 Module GlobalVar
 
-    Public Function CheckForUpdate(NotifyIcon1 As NotifyIcon) As Boolean
+    Public Function CheckForScrcpyUpdate(NotifyIcon1 As NotifyIcon) As Boolean
         Try
             Dim URL = "https://api.github.com/repos/Genymobile/scrcpy/releases/latest"
             Dim client = New RestClient()
             Dim response = client.Execute(New RestRequest(URL, Method.GET))
             If response.IsSuccessful Then
-                GitHubInfo = JsonConvert.DeserializeObject(Of GithubRelease)(response.Content)
-                If GitHubInfo.name.Trim.Contains(ScrcpyVersion) Then
-                    If NotifyIcon1 IsNot Nothing Then NotifyIcon1.ShowBalloonTip(900, "Update", "You are up to date", ToolTipIcon.Info)
+                GenyGithubInfo = JsonConvert.DeserializeObject(Of GithubRelease)(response.Content)
+                If New Version(GenyGithubInfo.tag_name.Trim("v")) <= New Version(ScrcpyVersion) Then
+                    NotifyIcon1.ShowBalloonTip(900, "Update", "You are up to date", ToolTipIcon.Info)
+                    Return False
+                End If
+            Else
+                NotifyIcon1.ShowBalloonTip(900, "Ops", "Can't connect to GitHub repo", ToolTipIcon.Warning)
+                Return False
+            End If
+        Catch ex As Exception
+            If NotifyIcon1 IsNot Nothing Then
+                NotifyIcon1.ShowBalloonTip(900, "Error", ex.ToFullExceptionString, ToolTipIcon.Error)
+            Else
+                Alert(ex.ToFullExceptionString)
+            End If
+            Return False
+        End Try
+        Return True
+    End Function
+
+
+
+
+    Public Function CheckForLoaderUpdate(NotifyIcon1 As NotifyIcon) As Boolean
+        Try
+            Dim URL = "https://api.github.com/repos/zonaro/scrcpyloader/releases/latest"
+            Dim client = New RestClient()
+            Dim response = client.Execute(New RestRequest(URL, Method.GET))
+            If response.IsSuccessful Then
+                ZonaroGithubInfo = JsonConvert.DeserializeObject(Of GithubRelease)(response.Content)
+                If New Version(ZonaroGithubInfo.tag_name) <= New Version(My.Forms.Main.ProductVersion) Then
+                    NotifyIcon1.ShowBalloonTip(900, "Update", "You are up to date", ToolTipIcon.Info)
                     Return False
                 End If
             Else
@@ -54,7 +83,26 @@ Module GlobalVar
     ReadOnly Property ADBPath As String
         Get
             If ScrcpyDirectory IsNot Nothing Then Return ScrcpyDirectory.FullName & "\adb.exe"
-            Return ""
+            Return Nothing
+        End Get
+    End Property
+
+    ReadOnly Property ScrcpyPath As String
+        Get
+            If ScrcpyDirectory IsNot Nothing Then Return ScrcpyDirectory.FullName & "\scrcpy.exe"
+            Return Nothing
+        End Get
+    End Property
+
+    ReadOnly Property ADBExists As Boolean
+        Get
+            Return ADBPath IsNot Nothing AndAlso File.Exists(ADBPath)
+        End Get
+    End Property
+
+    ReadOnly Property ScrcpyExists As Boolean
+        Get
+            Return ScrcpyPath IsNot Nothing AndAlso File.Exists(ScrcpyPath)
         End Get
     End Property
 
@@ -66,14 +114,15 @@ Module GlobalVar
 
     ReadOnly Property ScrcpyVersion As String
         Get
-            If ScrcpyDirectory IsNot Nothing AndAlso ScrcpyDirectory.Exists Then
-                Return ScrcpyDirectory.FullName.Split("-").LastOrDefault()
+            If ScrcpyExists AndAlso ADBExists Then
+                Return ScrcpyDirectory.FullName.Split("-").LastOrDefault()?.Trim.Trim("v")
             End If
             Return "NOT INSTALLED"
         End Get
     End Property
 
-    Property GitHubInfo As GithubRelease
+    Property GenyGithubInfo As GithubRelease
+    Property ZonaroGithubInfo As GithubRelease
     Property ADB As AdbClient
 
     Property ADBServer As AdbServer
@@ -159,17 +208,24 @@ Public Class Main
 
     End Sub
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If CheckForUpdate(NotifyIcon1) Then
-            UpdatePy.ShowDialog()
+
+        CheckUpdate()
+
+        If ScrcpyExists = False Then
+            NotifyIcon1.ShowBalloonTip(900, "Scrcpy not found", "Please, re-install Scrcpy from update panel", ToolTipIcon.Error)
         End If
 
-        If (ScrcpyDirectory IsNot Nothing AndAlso ScrcpyDirectory.Exists) Then
+        If ADBExists = False Then
+            NotifyIcon1.ShowBalloonTip(900, "ADB not found", "Please, re-install Scrcpy from update panel", ToolTipIcon.Error)
+        End If
+
+        If (ScrcpyExists AndAlso ADBExists) Then
             ADB = New AdbClient()
             ADBServer = New AdbServer()
-            ADBServer.StartServer(ScrcpyDirectory.FullName & "\adb.exe", False)
+            ADBServer.StartServer(ADBPath, False)
             StartMonitor()
             NotifyIcon1.Visible = True
-            Me.Text = Me.Text & " - " & ScrcpyVersion
+            ToolStripStatusLabel1.Text = "Scrcpy Loader v" & Me.ProductVersion & " / Scrcpy v" & ScrcpyVersion
         End If
 
     End Sub
@@ -206,9 +262,6 @@ Public Class Main
         Return pagina
     End Function
 
-    Private Sub Main_Move(sender As Object, e As EventArgs) Handles MyBase.Move, Me.Load
-        ToolStripStatusLabel1.Text = "Current Screen Name: " + Screen.FromControl(Me).DeviceName
-    End Sub
 
     Private Sub ToolStripMenuItem3_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem3.Click
         Me.Close()
@@ -228,6 +281,10 @@ Public Class Main
         For Each p In Process.GetProcessesByName("scrcpy.exe")
             p.Kill()
         Next
+    End Sub
+
+    Public Sub ForceClose()
+        Environment.Exit(1)
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
@@ -263,10 +320,17 @@ Public Class Main
 
     End Sub
 
-    Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click, ToolStripMenuItem7.Click
-        If CheckForUpdate(NotifyIcon1) Then
-            UpdatePy.ShowDialog()
+    Sub CheckUpdate()
+        If CheckForLoaderUpdate(NotifyIcon1) Then
+            UpdateLoader.ShowDialog()
         End If
+        If CheckForScrcpyUpdate(NotifyIcon1) Then
+            UpdateScrcpy.ShowDialog()
+        End If
+    End Sub
+
+    Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click, ToolStripMenuItem7.Click
+        CheckUpdate()
     End Sub
 
     Private Sub ToolStripMenuItem4_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem4.Click
@@ -294,4 +358,10 @@ Public Class Main
 
     End Sub
 
+    Private Sub ToolStripMenuItem11_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem11.Click
+        Dim p = TabControl1.SelectedTab
+        If p IsNot Nothing Then
+            p.Dispose()
+        End If
+    End Sub
 End Class

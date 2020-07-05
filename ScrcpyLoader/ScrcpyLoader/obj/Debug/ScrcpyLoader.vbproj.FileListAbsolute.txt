@@ -29,7 +29,6 @@ D:\svn\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\bin\Debug\Microsoft.Extensio
 D:\svn\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\bin\Debug\System.Buffers.xml
 D:\svn\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\bin\Debug\RestSharp.dll
 D:\svn\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\bin\Debug\RestSharp.xml
-D:\svn\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\obj\Debug\ScrcpyLoader.UpdatePy.resources
 D:\svn\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\bin\Debug\Markdig.dll
 D:\svn\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\bin\Debug\System.Memory.dll
 D:\svn\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\bin\Debug\System.Numerics.Vectors.dll
@@ -141,3 +140,6 @@ D:\SVN\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\bin\Debug\ScrcpyLoader.appli
 D:\SVN\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\obj\Debug\ScrcpyLoader.exe.manifest
 D:\SVN\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\obj\Debug\ScrcpyLoader.application
 D:\SVN\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\bin\Debug\SharpAdbClient.dll
+D:\SVN\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\obj\Debug\ScrcpyLoader.vbprojAssemblyReference.cache
+D:\SVN\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\obj\Debug\ScrcpyLoader.UpdateLoader.resources
+D:\SVN\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\obj\Debug\ScrcpyLoader.UpdateScrcpy.resources

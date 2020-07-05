@@ -26,6 +26,7 @@ Partial Class DeviceConsole
         Me.device_id = New System.Windows.Forms.ToolStripMenuItem()
         Me.start_bt = New System.Windows.Forms.ToolStripMenuItem()
         Me.AppMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.WithSentioDesktopToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
@@ -53,7 +54,6 @@ Partial Class DeviceConsole
         Me.ConsoleControl1 = New ConsoleControl.ConsoleControl()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.window_cap = New System.Windows.Forms.Panel()
-        Me.WithSentioDesktopToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -90,6 +90,13 @@ Partial Class DeviceConsole
         Me.AppMenu.Name = "AppMenu"
         Me.AppMenu.Size = New System.Drawing.Size(181, 22)
         Me.AppMenu.Text = "With App"
+        '
+        'WithSentioDesktopToolStripMenuItem
+        '
+        Me.WithSentioDesktopToolStripMenuItem.Enabled = False
+        Me.WithSentioDesktopToolStripMenuItem.Name = "WithSentioDesktopToolStripMenuItem"
+        Me.WithSentioDesktopToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.WithSentioDesktopToolStripMenuItem.Text = "With Sentio Desktop"
         '
         'ToolStripMenuItem2
         '
@@ -284,13 +291,6 @@ Partial Class DeviceConsole
         Me.window_cap.Name = "window_cap"
         Me.window_cap.Size = New System.Drawing.Size(634, 544)
         Me.window_cap.TabIndex = 0
-        '
-        'WithSentioDesktopToolStripMenuItem
-        '
-        Me.WithSentioDesktopToolStripMenuItem.Enabled = False
-        Me.WithSentioDesktopToolStripMenuItem.Name = "WithSentioDesktopToolStripMenuItem"
-        Me.WithSentioDesktopToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
-        Me.WithSentioDesktopToolStripMenuItem.Text = "With Sentio Desktop"
         '
         'DeviceConsole
         '
