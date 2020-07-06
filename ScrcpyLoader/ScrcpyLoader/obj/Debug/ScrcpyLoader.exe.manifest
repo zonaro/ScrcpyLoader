@@ -79,14 +79,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="InnerLibs.dll" size="1019392">
-      <assemblyIdentity name="InnerLibs" version="1.0.9.9900" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="InnerLibs.dll" size="1019904">
+      <assemblyIdentity name="InnerLibs" version="1.0.9.9046" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>7Zl00QqBiRXjTx8xDEmCme4+fL36l04df2dwZ968iko=</dsig:DigestValue>
+        <dsig:DigestValue>iBVPS5NB5ztaGG6p+20wkg1zCCNHjyG3vaW5PbSKZYU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -182,7 +182,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>/PJvQmblt9bLQBq4BwzyLqSM5PCzQZzpX5a7g6hM4NI=</dsig:DigestValue>
+        <dsig:DigestValue>e84j/C17/AmSy1Mxg9U1H0+vLU6ryzORkptrBF3QvLM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

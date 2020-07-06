@@ -47,6 +47,9 @@ Partial Class DeviceConsole
         Me.HELPToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem14 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem15 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.NullKeyboard_menu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.Configs = New System.Windows.Forms.PropertyGrid()
@@ -54,9 +57,7 @@ Partial Class DeviceConsole
         Me.ConsoleControl1 = New ConsoleControl.ConsoleControl()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.window_cap = New System.Windows.Forms.Panel()
-        Me.NullKeyboard_menu = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RunToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -82,7 +83,7 @@ Partial Class DeviceConsole
         '
         'start_bt
         '
-        Me.start_bt.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AppMenu, Me.WithSentioDesktopToolStripMenuItem})
+        Me.start_bt.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RunToolStripMenuItem, Me.AppMenu, Me.WithSentioDesktopToolStripMenuItem})
         Me.start_bt.Name = "start_bt"
         Me.start_bt.Size = New System.Drawing.Size(50, 20)
         Me.start_bt.Text = "START"
@@ -222,6 +223,25 @@ Partial Class DeviceConsole
         Me.ToolStripMenuItem15.Size = New System.Drawing.Size(295, 22)
         Me.ToolStripMenuItem15.Text = "Clear Console"
         '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(292, 6)
+        '
+        'NullKeyboard_menu
+        '
+        Me.NullKeyboard_menu.CheckOnClick = True
+        Me.NullKeyboard_menu.Enabled = False
+        Me.NullKeyboard_menu.Name = "NullKeyboard_menu"
+        Me.NullKeyboard_menu.Size = New System.Drawing.Size(295, 22)
+        Me.NullKeyboard_menu.Text = "Auto Enable NULL Keyboard if Installed"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(295, 22)
+        Me.ToolStripMenuItem1.Text = "Force Google Board as Default IME"
+        '
         'TabControl1
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
@@ -294,24 +314,11 @@ Partial Class DeviceConsole
         Me.window_cap.Size = New System.Drawing.Size(634, 544)
         Me.window_cap.TabIndex = 0
         '
-        'NullKeyboard_menu
+        'RunToolStripMenuItem
         '
-        Me.NullKeyboard_menu.CheckOnClick = True
-        Me.NullKeyboard_menu.Enabled = False
-        Me.NullKeyboard_menu.Name = "NullKeyboard_menu"
-        Me.NullKeyboard_menu.Size = New System.Drawing.Size(295, 22)
-        Me.NullKeyboard_menu.Text = "Auto Enable NULL Keyboard if Installed"
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(292, 6)
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(295, 22)
-        Me.ToolStripMenuItem1.Text = "Force Google Board as Default IME"
+        Me.RunToolStripMenuItem.Name = "RunToolStripMenuItem"
+        Me.RunToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.RunToolStripMenuItem.Text = "Run"
         '
         'DeviceConsole
         '
@@ -366,4 +373,5 @@ Partial Class DeviceConsole
     Friend WithEvents NullKeyboard_menu As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
     Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents RunToolStripMenuItem As ToolStripMenuItem
 End Class

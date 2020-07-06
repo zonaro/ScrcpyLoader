@@ -20,9 +20,7 @@ Public Class DeviceConsole
     End Sub
 
     Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles start_bt.Click
-        If start_bt.Text = "START" Then
-            StartProccess()
-        Else
+        If start_bt.Text = "STOP" Then
             Me.ConsoleControl1.ProcessInterface.StopProcess()
             ChangeToDefaultKeyboard()
             EnableStart()
@@ -80,6 +78,9 @@ Public Class DeviceConsole
         Try
             ToolStripMenuItem2.Enabled = True
             start_bt.Text = "START"
+            For Each item As ToolStripMenuItem In start_bt.DropDownItems
+                item.Visible = True
+            Next
             SHowHideTab1(True)
             ChangeToDefaultKeyboard()
         Catch ex As Exception
@@ -90,6 +91,9 @@ Public Class DeviceConsole
         Try
             ToolStripMenuItem2.Enabled = False
             SHowHideTab1(False)
+            For Each item As ToolStripMenuItem In start_bt.DropDownItems
+                item.Visible = False
+            Next
             start_bt.Text = "STOP"
         Catch ex As Exception
         End Try
@@ -515,5 +519,9 @@ Public Class DeviceConsole
         ChangeToDefaultKeyboard()
         SaveConfig()
         LoadConfig()
+    End Sub
+
+    Private Sub RunToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RunToolStripMenuItem.Click
+        StartProccess()
     End Sub
 End Class
