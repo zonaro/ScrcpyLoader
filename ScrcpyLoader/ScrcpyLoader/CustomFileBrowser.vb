@@ -6,6 +6,8 @@ Friend Class CustomFileBrowser
 
     Protected Overrides Sub InitializeDialog(openFileDialog As OpenFileDialog)
         MyBase.InitializeDialog(openFileDialog)
+        openFileDialog.DefaultExt = ".mkv"
+        openFileDialog.Multiselect = False
         openFileDialog.CheckFileExists = False
         openFileDialog.Title = "Save Video"
         openFileDialog.Filter = "Video File (*.mkv)|*.mkv"

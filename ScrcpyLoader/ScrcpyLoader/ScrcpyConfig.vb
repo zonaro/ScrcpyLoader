@@ -87,6 +87,12 @@ Public Class ScrcpyConfig
     <Description("Make window fullscreen on start"), Category("Definition")>
     Property Fullscreen As Boolean
 
+    <Description("Define the Scrcpy MOD key (lctrl+lalt,lsuper,rsuper, etc)"), Category("Definition")>
+    Property ShortcutMOD As String()
+
+    <Description("Disable computer Screen Saver"), Category("Behavior")>
+    Property DisableScreenSaver As Boolean
+
     Function Arguments() As List(Of String)
         Dim args = New List(Of String)
 
@@ -194,6 +200,15 @@ Public Class ScrcpyConfig
 
         If PushFilePath.IsNotBlank Then
             args.Add("--push-target " & PushFilePath.Quote)
+        End If
+
+        If ShortcutMOD IsNot Nothing AndAlso ShortcutMOD.Count > 0 Then
+            ShortcutMOD = ShortcutMOD.SelectMany(Function(x) x.SplitAny(",", " ")).Select(Function(x) x.AdjustBlankSpaces().Trim("+")).Where(Function(x) x.IsNotBlank).ToArray()
+            args.Add("--shortcut-mod=" & ShortcutMOD.Join(","))
+        End If
+
+        If DisableScreenSaver Then
+            args.Add("--disable-screensaver")
         End If
 
         Return args

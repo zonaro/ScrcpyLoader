@@ -77,6 +77,7 @@ Partial Class DeviceConsole
         'device_id
         '
         Me.device_id.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+        Me.device_id.ForeColor = System.Drawing.SystemColors.AppWorkspace
         Me.device_id.Name = "device_id"
         Me.device_id.Size = New System.Drawing.Size(63, 20)
         Me.device_id.Text = "deviceid"
