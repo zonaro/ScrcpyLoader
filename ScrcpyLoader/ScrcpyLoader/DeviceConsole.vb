@@ -102,7 +102,7 @@ Public Class DeviceConsole
     Sub LoadConfig()
         Try
             Dim folder = (CurDir() & "\configs\").ToDirectoryInfo().FullName & "\"
-            Dim file = folder & device_id.Text & ".scrcpylconfig"
+            Dim file = folder & device_id.Text.GetBefore(":") & ".scrcpylconfig"
             If IO.File.Exists(file) Then
                 Me.Configuration = JsonConvert.DeserializeObject(Of ScrcpyConfig)(IO.File.ReadAllText(file, Encoding.Default))
                 Me.Configs.SelectedObject = Me.Configuration
@@ -122,12 +122,29 @@ Public Class DeviceConsole
     Sub SaveConfig()
         Try
             Dim folder = (CurDir() & "\configs\").ToDirectoryInfo().FullName & "\"
-            Dim file = folder & device_id.Text & ".scrcpylconfig"
+            Dim file = folder & device_id.Text.GetBefore(":") & ".scrcpylconfig"
             JsonConvert.SerializeObject(Me.Configuration).WriteToFile(file)
         Catch ex As Exception
             LogText(ex.ToFullExceptionString, Color.Red)
         End Try
     End Sub
+
+
+    Public Sub EnableTCP()
+        Dim p As New Process()
+        p.StartInfo = New ProcessStartInfo()
+        With p.StartInfo
+            .FileName = ADBPath
+            .Arguments = $"-s {device_id.Text} tcpip 5555"
+        End With
+        p.Start()
+        Thread.Sleep(900)
+        If p IsNot Nothing AndAlso p.HasExited = False Then
+            p.Kill()
+        End If
+        Alert("TCP enabled, unplug your device")
+    End Sub
+
 
     Property StartWithArguments As Boolean = False
 
@@ -162,11 +179,13 @@ Public Class DeviceConsole
         GetApps()
 
         While ADBProc.HasExited = False
+            ADBProc.Kill()
             Thread.Sleep(900)
         End While
 
         GetDefaultKeyboard()
         While ADBProc.HasExited = False
+            ADBProc.Kill()
             Thread.Sleep(900)
         End While
         ChangeToDefaultKeyboard()
@@ -250,6 +269,29 @@ Public Class DeviceConsole
 
     End Function
 
+    Private Declare Function ShowWindow Lib "user32.dll" (ByVal hWnd As IntPtr, ByVal nCmdShow As SHOW_WINDOW) As Boolean
+
+    <Flags()>
+    Private Enum SHOW_WINDOW As Integer
+        SW_HIDE = 0
+        SW_SHOWNORMAL = 1
+        SW_NORMAL = 1
+        SW_SHOWMINIMIZED = 2
+        SW_SHOWMAXIMIZED = 3
+        SW_MAXIMIZE = 3
+        SW_SHOWNOACTIVATE = 4
+        SW_SHOW = 5
+        SW_MINIMIZE = 6
+        SW_SHOWMINNOACTIVE = 7
+        SW_SHOWNA = 8
+        SW_RESTORE = 9
+        SW_SHOWDEFAULT = 10
+        SW_FORCEMINIMIZE = 11
+        SW_MAX = 11
+    End Enum
+
+
+
     Public Shared GWL_STYLE As Integer = -16
     Public Shared WS_CHILD As Integer = &H40000000
     Public Shared WS_BORDER As Integer = &H800000
@@ -294,6 +336,8 @@ Public Class DeviceConsole
         SetParent(Proc.MainWindowHandle, window_cap.Handle)
 
         MoveWindow(Proc.MainWindowHandle, 0, 0, window_cap.FindForm.Width, window_cap.FindForm.Height, False)
+
+        'ShowWindow(Proc.MainWindowHandle, SHOW_WINDOW.SW_MAXIMIZE)
 
         TabControl1.SelectedTab = TabPage3
         TabPage3.Text = Proc.MainWindowTitle.IfBlank("SCRCPY WINDOW")
@@ -376,6 +420,7 @@ Public Class DeviceConsole
             GetDefaultKeyboard()
 
             While ADBProc.HasExited = False
+                ADBProc.Kill()
                 Thread.Sleep(900)
             End While
 
@@ -523,5 +568,9 @@ Public Class DeviceConsole
 
     Private Sub RunToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RunToolStripMenuItem.Click
         StartProccess()
+    End Sub
+
+    Private Sub ToolStripMenuItem6_Click_1(sender As Object, e As EventArgs) Handles ToolStripMenuItem6.Click
+        EnableTCP()
     End Sub
 End Class

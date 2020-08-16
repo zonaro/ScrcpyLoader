@@ -25,6 +25,7 @@ Partial Class DeviceConsole
         Me.MenuStrip2 = New System.Windows.Forms.MenuStrip()
         Me.device_id = New System.Windows.Forms.ToolStripMenuItem()
         Me.start_bt = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RunToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AppMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.WithSentioDesktopToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
@@ -57,7 +58,8 @@ Partial Class DeviceConsole
         Me.ConsoleControl1 = New ConsoleControl.ConsoleControl()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.window_cap = New System.Windows.Forms.Panel()
-        Me.RunToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuStrip2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -89,6 +91,12 @@ Partial Class DeviceConsole
         Me.start_bt.Size = New System.Drawing.Size(50, 20)
         Me.start_bt.Text = "START"
         '
+        'RunToolStripMenuItem
+        '
+        Me.RunToolStripMenuItem.Name = "RunToolStripMenuItem"
+        Me.RunToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.RunToolStripMenuItem.Text = "Run"
+        '
         'AppMenu
         '
         Me.AppMenu.Name = "AppMenu"
@@ -104,7 +112,7 @@ Partial Class DeviceConsole
         '
         'ToolStripMenuItem2
         '
-        Me.ToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem4, Me.ToolStripSeparator2, Me.ToolStripMenuItem3, Me.PictureInPictureToolStripMenuItem, Me.ToolStripSeparator1, Me.capture_menu, Me.autostart_menu, Me.ToolStripSeparator3, Me.HELPToolStripMenuItem, Me.ToolStripMenuItem14, Me.ToolStripMenuItem15, Me.ToolStripSeparator4, Me.NullKeyboard_menu, Me.ToolStripMenuItem1})
+        Me.ToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem4, Me.ToolStripSeparator2, Me.ToolStripMenuItem3, Me.PictureInPictureToolStripMenuItem, Me.ToolStripSeparator1, Me.capture_menu, Me.autostart_menu, Me.ToolStripSeparator3, Me.HELPToolStripMenuItem, Me.ToolStripMenuItem14, Me.ToolStripMenuItem15, Me.ToolStripSeparator4, Me.NullKeyboard_menu, Me.ToolStripMenuItem1, Me.ToolStripSeparator5, Me.ToolStripMenuItem6})
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
         Me.ToolStripMenuItem2.Size = New System.Drawing.Size(68, 20)
         Me.ToolStripMenuItem2.Text = "OPTIONS"
@@ -315,11 +323,16 @@ Partial Class DeviceConsole
         Me.window_cap.Size = New System.Drawing.Size(634, 544)
         Me.window_cap.TabIndex = 0
         '
-        'RunToolStripMenuItem
+        'ToolStripMenuItem6
         '
-        Me.RunToolStripMenuItem.Name = "RunToolStripMenuItem"
-        Me.RunToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
-        Me.RunToolStripMenuItem.Text = "Run"
+        Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(295, 22)
+        Me.ToolStripMenuItem6.Text = "Enable TCP IP"
+        '
+        'ToolStripSeparator5
+        '
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(292, 6)
         '
         'DeviceConsole
         '
@@ -375,4 +388,6 @@ Partial Class DeviceConsole
     Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
     Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents RunToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator5 As ToolStripSeparator
+    Friend WithEvents ToolStripMenuItem6 As ToolStripMenuItem
 End Class

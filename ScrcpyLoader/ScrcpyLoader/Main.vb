@@ -190,6 +190,7 @@ Public Class Main
     <DllImport("user32.dll", SetLastError:=True)>
     Shared Function MoveWindow(hWnd As IntPtr, X As Integer, Y As Integer, nWidth As Integer, nHeight As Integer, bRepaint As Integer) As Boolean
     End Function
+
     Sub CaptureWindow(Proc As Process)
 
         Proc.WaitForInputIdle()
@@ -261,9 +262,8 @@ Public Class Main
         DEVC.Device = device
         DEVC.device_id.Text = device.Serial
         DEVC.StartWithArguments = StartWithArguments
-
+        DEVC.ToolStripMenuItem6.Enabled = Not device.Serial.GetBefore(":").IsIP()
         pagina.Controls.Add(DEVC)
-
         Return pagina
     End Function
 
@@ -368,5 +368,33 @@ Public Class Main
         If p IsNot Nothing Then
             p.Dispose()
         End If
+    End Sub
+
+    Private Sub ToolStripMenuItem13_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem13.Click
+        Process.Start("https://github.com/zonaro/scrcpyloader/releases/tag/" & ProductVersion)
+
+    End Sub
+
+    Private Sub ToolStripMenuItem12_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem12.Click
+        Process.Start("https://github.com/Genymobile/scrcpy/releases/tag/v" & ScrcpyVersion)
+
+    End Sub
+
+    Private Sub ToolStripMenuItem14_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem14.Click
+        Dim ip = Prompt("Type the device IP", "192.168.0.1")
+        If ip.IsIP Then
+            Dim p As New Process()
+            p.StartInfo = New ProcessStartInfo()
+            With p.StartInfo
+                .FileName = ADBPath
+                .Arguments = $"connect {ip}:5555"
+            End With
+            p.Start()
+            Thread.Sleep(900)
+            If p IsNot Nothing AndAlso p.HasExited = False Then
+                p.Kill()
+            End If
+        End If
+
     End Sub
 End Class

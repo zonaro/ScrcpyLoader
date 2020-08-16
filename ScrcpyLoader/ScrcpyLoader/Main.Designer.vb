@@ -37,12 +37,18 @@ Partial Class Main
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripMenuItem13 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem12 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.StayOnTopToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem9 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem10 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem11 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem14 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.StatusStrip1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -129,7 +135,7 @@ Partial Class Main
         'ToolStripMenuItem5
         '
         Me.ToolStripMenuItem5.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
-        Me.ToolStripMenuItem5.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.StayOnTopToolStripMenuItem, Me.ToolStripMenuItem8, Me.ToolStripMenuItem9})
+        Me.ToolStripMenuItem5.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem14, Me.ToolStripSeparator4, Me.ToolStripMenuItem6, Me.ToolStripSeparator2, Me.ToolStripMenuItem13, Me.ToolStripMenuItem12, Me.ToolStripMenuItem7, Me.ToolStripSeparator3, Me.StayOnTopToolStripMenuItem, Me.ToolStripMenuItem8, Me.ToolStripMenuItem9})
         Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
         Me.ToolStripMenuItem5.Size = New System.Drawing.Size(68, 20)
         Me.ToolStripMenuItem5.Text = "OPTIONS"
@@ -137,32 +143,54 @@ Partial Class Main
         'ToolStripMenuItem6
         '
         Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(218, 22)
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(240, 22)
         Me.ToolStripMenuItem6.Text = "Open Application Directory"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(237, 6)
+        '
+        'ToolStripMenuItem13
+        '
+        Me.ToolStripMenuItem13.Name = "ToolStripMenuItem13"
+        Me.ToolStripMenuItem13.Size = New System.Drawing.Size(240, 22)
+        Me.ToolStripMenuItem13.Text = "View ScrcpyLoader Patch Notes"
+        '
+        'ToolStripMenuItem12
+        '
+        Me.ToolStripMenuItem12.Name = "ToolStripMenuItem12"
+        Me.ToolStripMenuItem12.Size = New System.Drawing.Size(240, 22)
+        Me.ToolStripMenuItem12.Text = "View Scrcpy Patch Notes"
         '
         'ToolStripMenuItem7
         '
         Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(218, 22)
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(240, 22)
         Me.ToolStripMenuItem7.Text = "Check for Updates"
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(237, 6)
         '
         'StayOnTopToolStripMenuItem
         '
         Me.StayOnTopToolStripMenuItem.CheckOnClick = True
         Me.StayOnTopToolStripMenuItem.Name = "StayOnTopToolStripMenuItem"
-        Me.StayOnTopToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
+        Me.StayOnTopToolStripMenuItem.Size = New System.Drawing.Size(240, 22)
         Me.StayOnTopToolStripMenuItem.Text = "Stay on Top"
         '
         'ToolStripMenuItem8
         '
         Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
-        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(218, 22)
+        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(240, 22)
         Me.ToolStripMenuItem8.Text = "Hide"
         '
         'ToolStripMenuItem9
         '
         Me.ToolStripMenuItem9.Name = "ToolStripMenuItem9"
-        Me.ToolStripMenuItem9.Size = New System.Drawing.Size(218, 22)
+        Me.ToolStripMenuItem9.Size = New System.Drawing.Size(240, 22)
         Me.ToolStripMenuItem9.Text = "Stop all Scrcpy Process"
         '
         'ToolStripMenuItem10
@@ -176,6 +204,17 @@ Partial Class Main
         Me.ToolStripMenuItem11.Name = "ToolStripMenuItem11"
         Me.ToolStripMenuItem11.Size = New System.Drawing.Size(95, 20)
         Me.ToolStripMenuItem11.Text = "CLOSE DEVICE"
+        '
+        'ToolStripMenuItem14
+        '
+        Me.ToolStripMenuItem14.Name = "ToolStripMenuItem14"
+        Me.ToolStripMenuItem14.Size = New System.Drawing.Size(240, 22)
+        Me.ToolStripMenuItem14.Text = "Connect Wireless Device"
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(237, 6)
         '
         'Main
         '
@@ -218,4 +257,10 @@ Partial Class Main
     Friend WithEvents ToolStripMenuItem9 As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem10 As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem11 As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
+    Friend WithEvents ToolStripMenuItem13 As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem12 As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
+    Friend WithEvents ToolStripMenuItem14 As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
 End Class

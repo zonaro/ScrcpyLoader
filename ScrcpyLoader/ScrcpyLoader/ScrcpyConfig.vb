@@ -1,6 +1,65 @@
 ﻿Imports System.ComponentModel
 Imports InnerLibs
 
+
+Public Class ShortcutModList
+    Inherits List(Of ShortcutMod)
+
+    Public Overrides Function ToString() As String
+        Return Me.Join(",")
+    End Function
+
+End Class
+
+<DefaultProperty("Shortcut")>
+Public Class ShortcutMod
+
+
+    Public ReadOnly Property Shortcut
+        Get
+            Return Me.ToString()
+        End Get
+    End Property
+    Public Property RightCtrl As Boolean = False
+    Public Property LeftCtrl As Boolean = False
+    Public Property RightAlt As Boolean = False
+    Public Property LeftAlt As Boolean = False
+    Public Property RightSuper As Boolean = False
+    Public Property LeftSuper As Boolean = False
+
+    Public Overrides Function ToString() As String
+        Dim lista As New List(Of String)
+
+        If LeftCtrl Then
+            lista.Add("lctrl")
+        End If
+
+        If RightCtrl Then
+            lista.Add("rctrl")
+        End If
+
+        If LeftSuper Then
+            lista.Add("lsuper")
+        End If
+
+        If RightSuper Then
+            lista.Add("rsuper")
+        End If
+
+        If LeftAlt Then
+            lista.Add("lalt")
+        End If
+
+        If RightAlt Then
+            lista.Add("ralt")
+        End If
+
+        Return lista.Join("+")
+
+    End Function
+
+End Class
+
 Public Class ScrcpyConfig
 
     <Browsable(False)>
@@ -9,13 +68,11 @@ Public Class ScrcpyConfig
     <Description("If true, enable NULL Keybaord as default Input Method (if installed) This is not a Scrcpy option. This behavior is defined by Scrcpy Loader"), Category("Behavior"), Browsable(False)>
     Property EnableNullKeyboard As Boolean
 
-
     <Description("Capture the output window of Scrcpy and host inside a tab. This is not a Scrcpy option. This behavior is defined by Scrcpy Loader"), Category("Behavior"), Browsable(False)>
     Property HostWindow As Boolean
 
     <Description("Auto Start Scrcpy as soon as device is connected. This is not a Scrcpy option. This behavior is defined by Scrcpy Loader"), Category("Behavior"), Browsable(False)>
     Property AutoStart As Boolean
-
 
     <Description("By default, the window title is the device model. It can be changed"), Category("Definition")>
     Property Title As String
@@ -55,17 +112,22 @@ Public Class ScrcpyConfig
 
     <Description("Video File Name (.mkv)"), Category("Recording"), EditorAttribute(GetType(CustomFileBrowser), GetType(System.Drawing.Design.UITypeEditor))>
     Property RecordFileName As String
+
     <Description("Change to TRUE if you want to record a video"), Category("Recording")>
     Property RecordFile As Boolean
+
     <Description("Force Text Input. Default is KeyEvents"), Category("Definition")>
     Property PreferText As Boolean
 
     <Description("Force window stay always on top of other windows."), Category("Position")>
     Property AlwaysOnTop As Boolean
+
     <Description("Force the device to stay awake during mirroring (Dont Lock itself)."), Category("Behavior")>
     Property StayAwake As Boolean
+
     <Description("Disable the computer input (Keyboard and Mouse) to Scrcpy window."), Category("Behavior")>
     Property NoControl As Boolean
+
     <Description("If several displays are available, it is possible to select the display to mirror"), Category("Definition")>
     Property Display As Integer?
 
@@ -87,8 +149,8 @@ Public Class ScrcpyConfig
     <Description("Make window fullscreen on start"), Category("Definition")>
     Property Fullscreen As Boolean
 
-    <Description("Define the Scrcpy MOD key (lctrl+lalt,lsuper,rsuper, etc)"), Category("Definition")>
-    Property ShortcutMOD As String()
+    <Description("Define the Scrcpy MOD key(s)"), Category("Definition"), TypeConverter(GetType(ExpandableObjectConverter)), Editor(GetType(ShortcutModEditor), GetType(System.Drawing.Design.UITypeEditor))>
+    Property ShortcutMOD As New SHortcutModList
 
     <Description("Disable computer Screen Saver"), Category("Behavior")>
     Property DisableScreenSaver As Boolean
@@ -203,7 +265,6 @@ Public Class ScrcpyConfig
         End If
 
         If ShortcutMOD IsNot Nothing AndAlso ShortcutMOD.Count > 0 Then
-            ShortcutMOD = ShortcutMOD.SelectMany(Function(x) x.SplitAny(",", " ")).Select(Function(x) x.AdjustBlankSpaces().Trim("+")).Where(Function(x) x.IsNotBlank).ToArray()
             args.Add("--shortcut-mod=" & ShortcutMOD.Join(","))
         End If
 
@@ -225,10 +286,13 @@ Public Class ScrcpyConfig
 
         <Description("Width of crop"), Category("Size")>
         Property Width As Integer
+
         <Description("Height of crop"), Category("Size")>
         Property Height As Integer
+
         <Description("Horizontal Offset"), Category("Size")>
         Property OffsetX As Integer
+
         <Description("Vertical Offset"), Category("Size")>
         Property OffsetY As Integer
 
@@ -242,8 +306,6 @@ Public Class ScrcpyConfig
     End Class
 
 End Class
-
-
 
 Public Class GithubRelease
     Public Property url As String
