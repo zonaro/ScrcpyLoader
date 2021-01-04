@@ -22,7 +22,6 @@ Public Class DeviceConsole
     Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles start_bt.Click
         If start_bt.Text = "STOP" Then
             Me.ConsoleControl1.ProcessInterface.StopProcess()
-            ChangeToDefaultKeyboard()
             EnableStart()
         End If
     End Sub
@@ -76,6 +75,9 @@ Public Class DeviceConsole
 
     Sub EnableStart()
         Try
+            If timer1.Enabled Then
+                timer1.Stop()
+            End If
             ToolStripMenuItem2.Enabled = True
             start_bt.Text = "START"
             For Each item As ToolStripMenuItem In start_bt.DropDownItems
@@ -95,6 +97,7 @@ Public Class DeviceConsole
                 item.Visible = False
             Next
             start_bt.Text = "STOP"
+            timer1.Start()
         Catch ex As Exception
         End Try
     End Sub
@@ -107,6 +110,7 @@ Public Class DeviceConsole
                 Me.Configuration = JsonConvert.DeserializeObject(Of ScrcpyConfig)(IO.File.ReadAllText(file, Encoding.Default))
                 Me.Configs.SelectedObject = Me.Configuration
                 Me.autostart_menu.Checked = Me.Configuration.AutoStart
+                Me.rememberpos_menu.Checked = Me.Configuration.RememberSizeAndPosition
                 Me.capture_menu.Checked = Me.Configuration.HostWindow
                 Me.NullKeyboard_menu.Checked = Me.Configuration.EnableNullKeyboard AndAlso Me.NullKeyboard_menu.Enabled
             Else
@@ -142,7 +146,7 @@ Public Class DeviceConsole
         If p IsNot Nothing AndAlso p.HasExited = False Then
             p.Kill()
         End If
-        Alert("TCP enabled, unplug your device")
+        Alert("TCP IP enabled, unplug your device")
     End Sub
 
 
@@ -179,16 +183,27 @@ Public Class DeviceConsole
         GetApps()
 
         While ADBProc.HasExited = False
-            ADBProc.Kill()
-            Thread.Sleep(900)
+            Thread.Sleep(500)
+            Try
+                ADBProc.Kill()
+            Catch ex As Exception
+            End Try
         End While
 
         GetDefaultKeyboard()
+
         While ADBProc.HasExited = False
-            ADBProc.Kill()
-            Thread.Sleep(900)
+            Thread.Sleep(500)
+            Try
+                ADBProc.Kill()
+            Catch ex As Exception
+            End Try
         End While
+
         ChangeToDefaultKeyboard()
+
+
+
     End Sub
 
     Private Sub HELPToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HELPToolStripMenuItem.Click
@@ -325,6 +340,21 @@ Public Class DeviceConsole
     Public Shared MF_BYPOSITION As UInteger = &H400
     Public Shared MF_REMOVE As UInteger = &H1000
 
+    <DllImport("user32.dll", SetLastError:=True)>', MarshalAs(UnmanagedType.Bool)>
+    Private Shared Function GetWindowRect(ByVal hWnd As IntPtr, ByRef lpRect As RECT) As Boolean
+    End Function
+
+    <StructLayout(LayoutKind.Sequential)>
+    Private Structure RECT
+        Public Left As Integer
+        Public Top As Integer
+        Public Right As Integer
+        Public Bottom As Integer
+    End Structure
+
+    Const WM_EXITSIZEMOVE As Integer = &H232
+
+
     Sub CaptureWindow(Proc As Process)
 
         'Proc.WaitForInputIdle()
@@ -341,6 +371,20 @@ Public Class DeviceConsole
 
         TabControl1.SelectedTab = TabPage3
         TabPage3.Text = Proc.MainWindowTitle.IfBlank("SCRCPY WINDOW")
+    End Sub
+
+    Sub GetWindowRectangle(Proc As Process)
+        Dim r As New RECT
+        GetWindowRect(Proc.MainWindowHandle, r)
+        If {r.Top, r.Bottom, r.Left, r.Right}.All(Function(x) x > 0) Then
+            Configuration.Width = r.Right - r.Left
+            Configuration.Height = r.Bottom - r.Top
+            Configuration.WindowX = r.Left
+            Configuration.WindowY = r.Top
+            SaveConfig()
+            LoadConfig()
+        End If
+
     End Sub
 
     Private Sub ToolStripMenuItem13_Click(sender As Object, e As EventArgs) Handles autostart_menu.Click
@@ -403,13 +447,17 @@ Public Class DeviceConsole
             ADBProc.Kill()
             ADBProc.Dispose()
         End If
-        Dim d As New ProcessStartInfo(ScrcpyDirectory.FullName & "\adb.exe", "-s " & device_id.Text & $" shell monkey -p {package} -c android.intent.category.LAUNCHER 1")
+        Dim d As New ProcessStartInfo(ADBPath, "-s " & device_id.Text & $" shell monkey -p {package} -c android.intent.category.LAUNCHER 1")
         d.UseShellExecute = False
         d.RedirectStandardOutput = True
         d.RedirectStandardError = True
         d.RedirectStandardInput = True
         d.CreateNoWindow = True
-        Process.Start(d)
+        Dim p = Process.Start(d)
+        Thread.Sleep(200)
+        If p IsNot Nothing AndAlso p.HasExited = False Then
+            p.Kill()
+        End If
         StartProccess(LineArgs)
     End Sub
 
@@ -503,6 +551,7 @@ Public Class DeviceConsole
                                                        Dim app_path = infos.First() & "base.apk"
                                                        Dim appdomain = app_package.Split(".").Where(Function(x) x <> "com")
                                                        Dim cbd = New CallBackDel(Sub()
+                                                                                     AppMenu.Enabled = True
                                                                                      Dim appdev = appdomain.First().ToTitle()
                                                                                      Dim appname = appdomain.Last().ToTitle()
 
@@ -572,5 +621,70 @@ Public Class DeviceConsole
 
     Private Sub ToolStripMenuItem6_Click_1(sender As Object, e As EventArgs) Handles ToolStripMenuItem6.Click
         EnableTCP()
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        SetDensity(NumericUpDown1.Value.ToString())
+    End Sub
+
+    Sub SetDensity(Density As String)
+        Dim p = New Process With {.StartInfo = New ProcessStartInfo}
+        With p.StartInfo
+            .UseShellExecute = False
+            .RedirectStandardOutput = True
+            .RedirectStandardError = True
+            .RedirectStandardInput = True
+            .CreateNoWindow = True
+            .Arguments = " -s " & device_id.Text & " shell wm density " & Density
+            .FileName = ADBPath
+        End With
+
+        p.Start()
+        Thread.Sleep(900)
+
+        If p IsNot Nothing AndAlso p.HasExited = False Then
+            p.Kill()
+        End If
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        SetDensity("reset")
+    End Sub
+
+
+
+    Private Sub DISCONNECTToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DISCONNECTToolStripMenuItem1.Click
+        Dim p = New Process With {.StartInfo = New ProcessStartInfo}
+        With p.StartInfo
+            .UseShellExecute = False
+            .RedirectStandardOutput = True
+            .RedirectStandardError = True
+            .RedirectStandardInput = True
+            .CreateNoWindow = True
+            .Arguments = " -s " & device_id.Text & " disconnect "
+            .FileName = ADBPath
+        End With
+        p.Start()
+        Thread.Sleep(900)
+
+        If p IsNot Nothing AndAlso p.HasExited = False Then
+            p.Kill()
+        End If
+    End Sub
+
+
+
+
+
+    Private Sub ToolStripMenuItem12_Click(sender As Object, e As EventArgs) Handles rememberpos_menu.Click
+        Configuration.RememberSizeAndPosition = rememberpos_menu.Checked
+        SaveConfig()
+        LoadConfig()
+    End Sub
+
+    Private Sub timer1_Tick(sender As Object, e As EventArgs) Handles timer1.Tick
+        If Me.ConsoleControl1.IsProcessRunning AndAlso Configuration.RememberSizeAndPosition Then
+            Me.GetWindowRectangle(Me.ConsoleControl1.ProcessInterface.Process)
+        End If
     End Sub
 End Class

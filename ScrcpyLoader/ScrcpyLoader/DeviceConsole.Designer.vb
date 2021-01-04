@@ -22,6 +22,7 @@ Partial Class DeviceConsole
     'Não o modifique usando o editor de códigos.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.MenuStrip2 = New System.Windows.Forms.MenuStrip()
         Me.device_id = New System.Windows.Forms.ToolStripMenuItem()
         Me.start_bt = New System.Windows.Forms.ToolStripMenuItem()
@@ -32,6 +33,7 @@ Partial Class DeviceConsole
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.rememberpos_menu = New System.Windows.Forms.ToolStripMenuItem()
         Me.PictureInPictureToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OtherPiPSizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
@@ -51,6 +53,9 @@ Partial Class DeviceConsole
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.NullKeyboard_menu = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DISCONNECTToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.Configs = New System.Windows.Forms.PropertyGrid()
@@ -58,18 +63,25 @@ Partial Class DeviceConsole
         Me.ConsoleControl1 = New ConsoleControl.ConsoleControl()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.window_cap = New System.Windows.Forms.Panel()
-        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
+        Me.adbtools_page = New System.Windows.Forms.TabPage()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.NumericUpDown1 = New System.Windows.Forms.NumericUpDown()
+        Me.timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.TabPage3.SuspendLayout()
+        Me.adbtools_page.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuStrip2
         '
-        Me.MenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.device_id, Me.start_bt, Me.ToolStripMenuItem2})
+        Me.MenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.device_id, Me.start_bt, Me.ToolStripMenuItem2, Me.DISCONNECTToolStripMenuItem1})
         Me.MenuStrip2.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip2.Name = "MenuStrip2"
         Me.MenuStrip2.Size = New System.Drawing.Size(648, 24)
@@ -99,6 +111,7 @@ Partial Class DeviceConsole
         '
         'AppMenu
         '
+        Me.AppMenu.Enabled = False
         Me.AppMenu.Name = "AppMenu"
         Me.AppMenu.Size = New System.Drawing.Size(181, 22)
         Me.AppMenu.Text = "With App"
@@ -112,7 +125,7 @@ Partial Class DeviceConsole
         '
         'ToolStripMenuItem2
         '
-        Me.ToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem4, Me.ToolStripSeparator2, Me.ToolStripMenuItem3, Me.PictureInPictureToolStripMenuItem, Me.ToolStripSeparator1, Me.capture_menu, Me.autostart_menu, Me.ToolStripSeparator3, Me.HELPToolStripMenuItem, Me.ToolStripMenuItem14, Me.ToolStripMenuItem15, Me.ToolStripSeparator4, Me.NullKeyboard_menu, Me.ToolStripMenuItem1, Me.ToolStripSeparator5, Me.ToolStripMenuItem6})
+        Me.ToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem4, Me.ToolStripSeparator2, Me.ToolStripMenuItem3, Me.rememberpos_menu, Me.PictureInPictureToolStripMenuItem, Me.ToolStripSeparator1, Me.capture_menu, Me.autostart_menu, Me.ToolStripSeparator3, Me.HELPToolStripMenuItem, Me.ToolStripMenuItem14, Me.ToolStripMenuItem15, Me.ToolStripSeparator4, Me.NullKeyboard_menu, Me.ToolStripMenuItem1, Me.ToolStripSeparator5, Me.ToolStripMenuItem6})
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
         Me.ToolStripMenuItem2.Size = New System.Drawing.Size(68, 20)
         Me.ToolStripMenuItem2.Text = "OPTIONS"
@@ -133,6 +146,13 @@ Partial Class DeviceConsole
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
         Me.ToolStripMenuItem3.Size = New System.Drawing.Size(295, 22)
         Me.ToolStripMenuItem3.Text = "Define Window Size and Position"
+        '
+        'rememberpos_menu
+        '
+        Me.rememberpos_menu.CheckOnClick = True
+        Me.rememberpos_menu.Name = "rememberpos_menu"
+        Me.rememberpos_menu.Size = New System.Drawing.Size(295, 22)
+        Me.rememberpos_menu.Text = "Remember Last Size and Position"
         '
         'PictureInPictureToolStripMenuItem
         '
@@ -251,11 +271,29 @@ Partial Class DeviceConsole
         Me.ToolStripMenuItem1.Size = New System.Drawing.Size(295, 22)
         Me.ToolStripMenuItem1.Text = "Force Google Board as Default IME"
         '
+        'ToolStripSeparator5
+        '
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(292, 6)
+        '
+        'ToolStripMenuItem6
+        '
+        Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(295, 22)
+        Me.ToolStripMenuItem6.Text = "Enable TCP IP"
+        '
+        'DISCONNECTToolStripMenuItem1
+        '
+        Me.DISCONNECTToolStripMenuItem1.Name = "DISCONNECTToolStripMenuItem1"
+        Me.DISCONNECTToolStripMenuItem1.Size = New System.Drawing.Size(91, 20)
+        Me.DISCONNECTToolStripMenuItem1.Text = "DISCONNECT"
+        '
         'TabControl1
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage3)
+        Me.TabControl1.Controls.Add(Me.adbtools_page)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 24)
         Me.TabControl1.Name = "TabControl1"
@@ -323,16 +361,61 @@ Partial Class DeviceConsole
         Me.window_cap.Size = New System.Drawing.Size(634, 544)
         Me.window_cap.TabIndex = 0
         '
-        'ToolStripMenuItem6
+        'adbtools_page
         '
-        Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(295, 22)
-        Me.ToolStripMenuItem6.Text = "Enable TCP IP"
+        Me.adbtools_page.Controls.Add(Me.GroupBox1)
+        Me.adbtools_page.Location = New System.Drawing.Point(4, 22)
+        Me.adbtools_page.Name = "adbtools_page"
+        Me.adbtools_page.Padding = New System.Windows.Forms.Padding(3)
+        Me.adbtools_page.Size = New System.Drawing.Size(640, 550)
+        Me.adbtools_page.TabIndex = 3
+        Me.adbtools_page.Text = "TOOLS"
+        Me.adbtools_page.UseVisualStyleBackColor = True
         '
-        'ToolStripSeparator5
+        'GroupBox1
         '
-        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(292, 6)
+        Me.GroupBox1.Controls.Add(Me.Button2)
+        Me.GroupBox1.Controls.Add(Me.Button1)
+        Me.GroupBox1.Controls.Add(Me.NumericUpDown1)
+        Me.GroupBox1.Location = New System.Drawing.Point(6, 6)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(124, 125)
+        Me.GroupBox1.TabIndex = 1
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Device Density"
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(17, 86)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(93, 23)
+        Me.Button2.TabIndex = 2
+        Me.Button2.Text = "Reset"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(17, 57)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(93, 23)
+        Me.Button1.TabIndex = 1
+        Me.Button1.Text = "Set"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'NumericUpDown1
+        '
+        Me.NumericUpDown1.Increment = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.NumericUpDown1.Location = New System.Drawing.Point(17, 31)
+        Me.NumericUpDown1.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.NumericUpDown1.Minimum = New Decimal(New Integer() {72, 0, 0, 0})
+        Me.NumericUpDown1.Name = "NumericUpDown1"
+        Me.NumericUpDown1.Size = New System.Drawing.Size(93, 20)
+        Me.NumericUpDown1.TabIndex = 0
+        Me.NumericUpDown1.Value = New Decimal(New Integer() {72, 0, 0, 0})
+        '
+        'timer1
+        '
+        Me.timer1.Interval = 1000
         '
         'DeviceConsole
         '
@@ -348,6 +431,9 @@ Partial Class DeviceConsole
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage3.ResumeLayout(False)
+        Me.adbtools_page.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -390,4 +476,12 @@ Partial Class DeviceConsole
     Friend WithEvents RunToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator5 As ToolStripSeparator
     Friend WithEvents ToolStripMenuItem6 As ToolStripMenuItem
+    Friend WithEvents adbtools_page As TabPage
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents Button2 As Button
+    Friend WithEvents Button1 As Button
+    Friend WithEvents NumericUpDown1 As NumericUpDown
+    Friend WithEvents DISCONNECTToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents rememberpos_menu As ToolStripMenuItem
+    Friend WithEvents timer1 As Timer
 End Class

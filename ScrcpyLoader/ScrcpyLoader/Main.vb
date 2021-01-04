@@ -144,13 +144,15 @@ Public Class Main
     Delegate Sub TabCallBack()
 
     Sub AddAba(e As DeviceDataEventArgs)
-        Dim device = ADB.GetDevices().FirstOrDefault(Function(x) x.Serial = e.Device.Serial)
-        NotifyIcon1.ShowBalloonTip(900, "New Device", $"The device {device.Name} has connected to this PC", ToolTipIcon.Info)
-        TabControl1.TabPages.Add(CreateDevicePage(device))
+        Dim device = e.Device
+        While device.Name.IsBlank
+            device = ADB.GetDevices().FirstOrDefault(Function(x) x.Serial = e.Device.Serial)
+        End While
+        NotifyIcon1.ShowBalloonTip(900, "New Device", $"The device {e.Device.Name} has connected to this PC", ToolTipIcon.Info)
+        TabControl1.TabPages.Add(CreateDevicePage(e.Device))
     End Sub
 
     Sub RemoveAba(e As DeviceDataEventArgs)
-
         NotifyIcon1.ShowBalloonTip(900, "Device", $"The device has disconnected", ToolTipIcon.Warning)
         Dim l = New List(Of TabPage)
         For Each t In TabControl1.TabPages
@@ -263,6 +265,7 @@ Public Class Main
         DEVC.device_id.Text = device.Serial
         DEVC.StartWithArguments = StartWithArguments
         DEVC.ToolStripMenuItem6.Enabled = Not device.Serial.GetBefore(":").IsIP()
+        DEVC.DISCONNECTToolStripMenuItem1.Visible = Not DEVC.ToolStripMenuItem6.Enabled
         pagina.Controls.Add(DEVC)
         Return pagina
     End Function

@@ -74,6 +74,9 @@ Public Class ScrcpyConfig
     <Description("Auto Start Scrcpy as soon as device is connected. This is not a Scrcpy option. This behavior is defined by Scrcpy Loader"), Category("Behavior"), Browsable(False)>
     Property AutoStart As Boolean
 
+    <Description("Remember window Size and Position. This is not a Scrcpy option. This behavior is defined by Scrcpy Loader"), Category("Behavior"), Browsable(False)>
+    Property RememberSizeAndPosition As Boolean = False
+
     <Description("By default, the window title is the device model. It can be changed"), Category("Definition")>
     Property Title As String
 
@@ -150,10 +153,16 @@ Public Class ScrcpyConfig
     Property Fullscreen As Boolean
 
     <Description("Define the Scrcpy MOD key(s)"), Category("Definition"), TypeConverter(GetType(ExpandableObjectConverter)), Editor(GetType(ShortcutModEditor), GetType(System.Drawing.Design.UITypeEditor))>
-    Property ShortcutMOD As New SHortcutModList
+    Property ShortcutMOD As New ShortcutModList
 
     <Description("Disable computer Screen Saver"), Category("Behavior")>
     Property DisableScreenSaver As Boolean
+
+    <Description("By default, holding a key down generates repeated key events. This can cause performance problems in some games, where these events are useless anyway."), Category("Behavior")>
+    Property NoKeyRepeat As Boolean
+
+    <Description("By default, right-click triggers BACK (or POWER on) and middle-click triggers HOME. To disable these shortcuts and forward the clicks to the device instead"), Category("Behavior")>
+    Property ForwardAllClicks As Boolean
 
     Function Arguments() As List(Of String)
         Dim args = New List(Of String)
@@ -270,6 +279,14 @@ Public Class ScrcpyConfig
 
         If DisableScreenSaver Then
             args.Add("--disable-screensaver")
+        End If
+
+        If NoKeyRepeat Then
+            args.Add("--no-key-repeat")
+        End If
+
+        If ForwardAllClicks Then
+            args.Add("--forward-all-clicks")
         End If
 
         Return args

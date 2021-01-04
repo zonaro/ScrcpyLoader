@@ -143,3 +143,4 @@ D:\SVN\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\bin\Debug\SharpAdbClient.dll
 D:\SVN\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\obj\Debug\ScrcpyLoader.vbprojAssemblyReference.cache
 D:\SVN\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\obj\Debug\ScrcpyLoader.UpdateLoader.resources
 D:\SVN\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\obj\Debug\ScrcpyLoader.UpdateScrcpy.resources
+D:\SVN\ScrcpyLoader\trunk\ScrcpyLoader\ScrcpyLoader\bin\Debug\InnerLibs.dll.config
